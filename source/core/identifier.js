@@ -1,12 +1,21 @@
-import { bookList } from './bookList';
+const { bookList } = require('./bookList');
 
-export function identifier(reference) {
+function identifier(reference) {
   const [_, book, chapter, verse] = parseReference(reference);
+  const bookNumber = bookList.indexOf(book);
+  if (bookNumber <= 0) {
+    throw new Error(`Unknown book title "${book}".`);
+  }
   return [
-    bookList.indexOf(book),
-    chapter,
-    verse,
+    zeroPad(bookNumber, 2),
+    zeroPad(chapter, 3),
+    zeroPad(verse, 3),
   ].join('-');
+}
+
+function zeroPad(number, length) {
+  const padded = Array(length).join("0") + number;
+  return padded.substring(padded.length - length);
 }
 
 function parseReference(reference) {
@@ -17,3 +26,5 @@ function parseReference(reference) {
   }
   return match;
 }
+
+module.exports = { identifier };

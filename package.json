@@ -1,8 +1,8 @@
 {
-  "name": "scroll",
+  "name": "scroll-core",
   "version": "0.0.1",
   "description": "An immersive Bible exploration app",
-  "main": "index.js",
+  "main": "source/index.js",
   "scripts": {
     "test": "jest",
     "clean": "rm -rf ./build && mkdir ./build",

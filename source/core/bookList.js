@@ -1,5 +1,5 @@
 // Generated with `curl https://getbible.net/v2/web.json | jq '[.books[].name]'`
-export const bookList = ["",
+const bookList = ["",
   "Genesis",
   "Exodus",
   "Leviticus",
@@ -67,3 +67,5 @@ export const bookList = ["",
   "Jude",
   "Revelation"
 ]
+
+module.exports = { bookList };
