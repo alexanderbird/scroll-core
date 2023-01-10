@@ -7,6 +7,7 @@ describe('identifier', () => {
     'Genesis 2:1': '01-002-001',
     'Genesis 2:1': '01-002-001',
     'Psalms 119:176': '19-119-176',
+    'Psalm 119:176': '19-119-176',
     'Revelation 22:21': '66-022-021',
   }).forEach(([from, to]) => {
     it(`converts from ${from} to ${to}`, () => {
@@ -19,6 +20,6 @@ describe('identifier', () => {
   });
 
   it('throws a helpful error if the book is unknown', () => {
-    expect(() => identifier('Psalm 2:1')).toThrow('Unknown book title "Psalm".');
+    expect(() => identifier('Judeee 2:1')).toThrow('Unknown book title "Judeee".');
   });
 });

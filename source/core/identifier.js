@@ -2,8 +2,8 @@ const { bookList } = require('./bookList');
 
 function identifier(reference) {
   const [_, book, chapter, verse] = parseReference(reference);
-  const bookNumber = bookList.indexOf(book);
-  if (bookNumber <= 0) {
+  const bookNumber = bookList[book];
+  if (!bookNumber) {
     throw new Error(`Unknown book title "${book}".`);
   }
   return [
