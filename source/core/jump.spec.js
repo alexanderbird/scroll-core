@@ -4,6 +4,8 @@ describe('jump', () => {
   Object.entries({
     'H123':         { type: 'word', id: 'H123' },
     'G123':         { type: 'word', id: 'G123' },
+    'h123':         { type: 'word', id: 'H123' },
+    'g123':         { type: 'word', id: 'G123' },
     'F123':         { type: 'nothing' },
     '12 Genesis':   { type: 'nothing' },
     'Genesis 2:31': { type: 'verse', id: '01-002-031', label: 'Genesis 2:31' },

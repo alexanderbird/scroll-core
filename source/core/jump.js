@@ -8,9 +8,9 @@ const fuzzySearcher = new Searcher(bookNames, {
 });
 
 function jump(query) {
-  if (query.match(/^[A-Z]\d+$/)) {
-    if (query[0] === "G" || query[0] === "H") {
-      return { type: 'word', id: query };
+  if (query.match(/^[A-Za-z]\d+$/)) {
+    if (query.match(/^[GgHh]/)) {
+      return { type: 'word', id: query.toUpperCase() };
     }
     return { type: 'nothing' };
   }
