@@ -32,7 +32,7 @@ function jump(query) {
     };
   }
 
-  const fuzzyPattern = new RegExp(book.split('').join(".*"));
+  const fuzzyPattern = new RegExp(book.toLowerCase().split('').join(".*"), 'i');
 
   const containsAllLetters = bookNames
     .filter(candidate => candidate.match(fuzzyPattern))
