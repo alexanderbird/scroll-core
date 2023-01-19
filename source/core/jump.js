@@ -14,11 +14,11 @@ function jump(query) {
     }
     return { type: 'nothing' };
   }
-  const refereneMatch = query.match(/^(?<book>\d?[^\d]*)( (?<chapter>\d+)([^0-9](?<verse>\d+)?)?)?$/);
-  if (!refereneMatch) {
+  const referenceJump = query.match(/^(?<book>\d?[^\d]*)( (?<chapter>\d+)([^0-9](?<verse>\d+)?)?)?$/);
+  if (!referenceJump) {
     return { type: 'nothing' };
   }
-  const { book: bookWithWhitespace, chapter: nullableChapter, verse: nullableVerse } = refereneMatch.groups;
+  const { book: bookWithWhitespace, chapter: nullableChapter, verse: nullableVerse } = referenceJump.groups;
   const book = bookWithWhitespace.trim();
   const chapter = nullableChapter || '1';
   const verse = nullableVerse || '1';

@@ -1,5 +1,14 @@
 const { bookList } = require('./bookList');
 
+const reverseBookList = Object.entries(bookList)
+  .reduce((all, one) => { all[one[1]] = one[0]; return all; }, {});
+
+function reference(identfier) {
+  const [ ,bookNumber, chapterNumber, verseNumber] = identfier.match(/(\d+)-(\d+)-(\d+)/);
+  const bookName = reverseBookList[parseInt(bookNumber)];
+  return `${bookName} ${parseInt(chapterNumber)}:${parseInt(verseNumber)}`;
+}
+
 function identifier(reference) {
   const [_, book, chapter, verse] = parseReference(reference);
   const bookNumber = bookList[book];
@@ -27,4 +36,4 @@ function parseReference(reference) {
   return match;
 }
 
-module.exports = { identifier };
+module.exports = { identifier, reference };

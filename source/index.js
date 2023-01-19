@@ -1,4 +1,4 @@
-const { identifier } = require('./core/identifier');
+const { identifier, reference } = require('./core/identifier');
 const { jump } = require('./core/jump');
 
-module.exports = { identifier, jump };
+module.exports = { reference, identifier, jump };

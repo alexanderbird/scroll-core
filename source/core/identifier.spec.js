@@ -1,4 +1,4 @@
-import { identifier } from './identifier';
+import { identifier, reference } from './identifier';
 
 describe('identifier', () => {
   Object.entries({
@@ -12,6 +12,19 @@ describe('identifier', () => {
   }).forEach(([from, to]) => {
     it(`converts from ${from} to ${to}`, () => {
       expect(identifier(from)).toEqual(to);
+    });
+  });
+
+  Object.entries({
+    'Genesis 1:1': '01-001-001',
+    'Genesis 1:31': '01-001-031',
+    'Genesis 2:1': '01-002-001',
+    'Genesis 2:1': '01-002-001',
+    'Psalms 119:176': '19-119-176',
+    'Revelation 22:21': '66-022-021',
+  }).forEach(([from, to]) => {
+    it(`converts converts back from ${to} to ${from}`, () => {
+      expect(reference(to)).toEqual(from);
     });
   });
 
