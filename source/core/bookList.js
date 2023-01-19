@@ -23,6 +23,7 @@ const bookList = {
   "Proverbs": 20,
   "Ecclesiastes": 21,
   "Song of Songs": 22,
+  "Canticles": 22,
   "Song of Solomon": 22,
   "Isaiah": 23,
   "Jeremiah": 24,
