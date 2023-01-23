@@ -21,6 +21,8 @@ describe('jump', () => {
     'Genesis':      { type: 'verse', id: '01-001-001', label: 'Genesis 1:1' },
     'Job':          { type: 'verse', id: '18-001-001', label: 'Job 1:1' },
     'job':          { type: 'verse', id: '18-001-001', label: 'Job 1:1' },
+    'Psalm 1:1':    { type: 'verse', id: '19-001-001', label: 'Psalms 1:1' },
+    'Song of Songs 1:1':    { type: 'verse', id: '22-001-001', label: 'Song of Solomon 1:1' },
     'John': { type: 'list', items: [
       { type: 'verse', id: '43-001-001', label: 'John 1:1' },
       { type: 'verse', id: '62-001-001', label: '1 John 1:1' },

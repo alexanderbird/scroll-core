@@ -2,7 +2,7 @@ const { Searcher } = require('fast-fuzzy');
 const { bookList } = require('./bookList');
 const { identifier } = require('./identifier');
 
-const bookNames = Object.keys(bookList);
+const bookNames = Object.values(Object.entries(bookList).reduce((all, one) => { all[one[1]] = one[0]; return all; }, {}));
 const fuzzySearcher = new Searcher(bookNames, {
   returnMatchData: true
 });
