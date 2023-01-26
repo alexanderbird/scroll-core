@@ -12,7 +12,7 @@ describe('shortIdentifier', () => {
     it(`compresses ${from} to exactly 5 URL safe characters`, () => {
       const compressed = shortIdentifier.compress(from);
       // What are URL safe characters? https://stackoverflow.com/a/695469/3012550
-      expect(compressed).toMatch(/[0-9a-zA-Z~._-]{5}/);
+      expect(compressed).toMatch(/^[0-9a-zA-Z~._-]{5}$/);
     });
   });
 
@@ -20,7 +20,6 @@ describe('shortIdentifier', () => {
     it(`reversibly compresses ${from}`, () => {
       const compressed = shortIdentifier.compress(from);
       const expanded = shortIdentifier.expand(compressed);
-      console.log({ compressed, expanded });
       expect(expanded).toEqual(from);
     });
   });
@@ -40,5 +39,16 @@ describe('shortIdentifier', () => {
     });
   });
 
-  // throws when expanding invalid short identifiers
+  [
+    'aaaa',
+    'aaaaaa',
+    'aa?aa',
+    'aa/aa',
+    'aa!aa',
+  ].forEach(id => {
+    it(`throws a helpful error when expanding ${id} which does not match the short identifier pattern`, () => {
+      expect(() => shortIdentifier.expand(id))
+        .toThrow(`'${id}' does not match /^[0-9a-zA-Z~._-]{5}$/`);
+    });
+  });
 });

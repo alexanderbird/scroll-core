@@ -20,6 +20,10 @@ function compress(identifier) {
 }
 
 function expand(shortIdentifier) {
+  const shortIdentifierPattern = /^[0-9a-zA-Z~._-]{5}$/;
+  if (!shortIdentifier.match(shortIdentifierPattern)) {
+    throw new Error(`'${shortIdentifier}' does not match ${shortIdentifierPattern}`);
+  }
   const numericId = fromBaseSixtyFive(shortIdentifier);
   const [i8, i7, i6, i5, i4, i3, i2, i1] = `00000000${numericId}`.split('').reverse();
   return [i1, i2, '-', i3, i4, i5, '-', i6, i7, i8].join('');
