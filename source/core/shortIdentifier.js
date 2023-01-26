@@ -14,19 +14,39 @@ function compress(identifier) {
   if (!parsed) {
     throw new Error(`'${identifier}' does not match /^[0-9]{2}-[0-9]{3}-[0-9]{3}$/`);
   }
-  const { book, chapter, verse } = parsed.groups;
-  const numericId = Number(`${book}${chapter}${verse}`);
-  return ('00000' + toBaseSixtyFive(numericId)).slice(-5);
+  const { book: book0, chapter: chapter0, verse: verse0 } = parsed.groups;
+  const { book, chapter, verse } = specialCompressingCases[book0] ? specialCompressingCases[book0](chapter0, verse0) : { book: book0, chapter: chapter0, verse: verse0 };
+  const numericId = Number(`${book}${chapter.slice(-2)}${verse.slice(-2)}`);
+  return ('00000' + toBaseSixtyFive(numericId)).slice(-4);
+}
+
+const specialCompressingCases = {
+  [19]: (chapter, verse) => {
+    if (chapter > 99 && verse > 99) return { book: 68, chapter: (Number(chapter) - 100).toString(), verse: (Number(verse) - 100).toString() };
+    if (chapter > 99) return { book: 67, chapter: (Number(chapter) - 100).toString(), verse};
+    return { book: 19, chapter, verse };
+  },
+}
+
+const specialExpandingCases = {
+  '67': (chapter, verse) => ({ book: 19, chapter: 100 + Number(chapter), verse }),
+  '68': (chapter, verse) => ({ book: 19, chapter: 100 + Number(chapter), verse: 100 + Number(verse) }),
 }
 
 function expand(shortIdentifier) {
-  const shortIdentifierPattern = /^[0-9a-zA-Z~._-]{5}$/;
+  const shortIdentifierPattern = /^[0-9a-zA-Z~._-]{4}$/;
   if (!shortIdentifier.match(shortIdentifierPattern)) {
     throw new Error(`'${shortIdentifier}' does not match ${shortIdentifierPattern}`);
   }
   const numericId = fromBaseSixtyFive(shortIdentifier);
-  const [i8, i7, i6, i5, i4, i3, i2, i1] = `00000000${numericId}`.split('').reverse();
-  return [i1, i2, '-', i3, i4, i5, '-', i6, i7, i8].join('');
+  const [i6, i5, i4, i3, i2, i1] = `000000${numericId}`.split('').reverse();
+  const book0 = i1 + i2;
+  const chapter0 = i3 + i4;
+  const verse0 = i5 + i6;
+  const { book, chapter, verse } = specialExpandingCases[book0]
+    ? specialExpandingCases[book0](chapter0, verse0)
+    : { book: book0, chapter: chapter0, verse: verse0 };
+  return [book, ("000" + chapter).slice(-3), ("000" + verse).slice(-3)].join('-');
 }
 
 function toBaseSixtyFive(number) {
