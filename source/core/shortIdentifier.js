@@ -7,7 +7,8 @@ import { pattern } from './identifier';
 
 //                       0         10                        36  40                       65
 //                       v         v                         v   v                        v
-const sixtyFivenaries = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_-.~abcdefghijklmnopqrstuvwxyz';
+const sixtySixenaries = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_-.~abcdefghijklmnopqrstuvwxyz';
+const base = 66;
 
 function compress(identifier) {
   const parsed = identifier.match(pattern);
@@ -51,24 +52,24 @@ function expand(shortIdentifier) {
 
 function toBaseSixtyFive(number) {
   if (number === 0) return '';
-  const leastSignificant = number % 65;
-  const leastSignificantSixtyFivenary = sixtyFivenaryFromBaseTen(leastSignificant);
-  const remainder = Math.floor(number / 65);
-  return `${toBaseSixtyFive(remainder)}${leastSignificantSixtyFivenary}`;
+  const leastSignificant = number % base;
+  const leastSignificantSixtySixenary = sixtySixenaryFromBaseTen(leastSignificant);
+  const remainder = Math.floor(number / base);
+  return `${toBaseSixtyFive(remainder)}${leastSignificantSixtySixenary}`;
 }
 
 function fromBaseSixtyFive(baseSixtyFive) {
   return baseSixtyFive.split('').reverse()
-    .map((sixtyFivenary, power) => baseTenFromSixtyFivenary(sixtyFivenary) * (65 ** power))
+    .map((sixtySixenary, power) => baseTenFromSixtySixenary(sixtySixenary) * (base ** power))
     .reduce((all, one) => all + one, 0);
 }
 
-function sixtyFivenaryFromBaseTen(number) {
-  return sixtyFivenaries[number];
+function sixtySixenaryFromBaseTen(number) {
+  return sixtySixenaries[number];
 }
 
-function baseTenFromSixtyFivenary(sixtyFivenary) {
-  return sixtyFivenaries.indexOf(sixtyFivenary);
+function baseTenFromSixtySixenary(sixtySixenary) {
+  return sixtySixenaries.indexOf(sixtySixenary);
 }
 
 module.exports = { compress, expand };
