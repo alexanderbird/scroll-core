@@ -1,9 +1,16 @@
 import * as shortIdentifier from './shortIdentifier';
+import everyIdentifier from './spec/everyIdentifier.json'
 
 const examples = [
   '01-001-001', // smallest identifier
   '66-022-021', // largest book number
+  '19-100-001', // chapter number packing threshold
+  '19-101-001',
+  '19-102-001',
   '19-150-006', // largest chapter number
+  '19-119-100', // verse number packing threshold
+  '19-119-101',
+  '19-119-102',
   '19-119-176', // largest verse number
 ];
 
@@ -21,6 +28,14 @@ describe('shortIdentifier', () => {
       const compressed = shortIdentifier.compress(from);
       const expanded = shortIdentifier.expand(compressed);
       expect(expanded).toEqual(from);
+    });
+  });
+
+  it('reversibly compresses the identifier of every Bible verse', () => {
+    everyIdentifier.forEach(id => {
+      const compressed = shortIdentifier.compress(id);
+      const expanded = shortIdentifier.expand(compressed);
+      expect(expanded).toEqual(id);
     });
   });
 

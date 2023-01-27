@@ -16,7 +16,7 @@ function compress(identifier) {
   }
   const { book: book0, chapter: chapter0, verse: verse0 } = parsed.groups;
   const { book, chapter, verse } = specialCompressingCases[book0] ? specialCompressingCases[book0](chapter0, verse0) : { book: book0, chapter: chapter0, verse: verse0 };
-  const numericId = Number(`${book}${chapter.slice(-2)}${verse.slice(-2)}`);
+  const numericId = Number(`${book}${("00" + chapter).slice(-2)}${("00" + verse).slice(-2)}`);
   return ('00000' + toBaseSixtyFive(numericId)).slice(-4);
 }
 
