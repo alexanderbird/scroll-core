@@ -1,5 +1,3 @@
-module.exports = { compress, expand };
-
 class BlockMapping {
   constructor() {
     this.compressionMap = {};
@@ -55,13 +53,13 @@ const blocks = new BlockMapping()
   .addBlock(16, 99, [ 68 ])
   .addBlock(17, 99, [ 69 ]);
 
-function compress({ book, chapter, verse }) {
+export function compress({ book, chapter, verse }) {
   const partial = handlePsalmCompression(book, chapter, verse);
   const compressed = blocks.compress(partial.book, partial.chapter);
   return { book: compressed.book, chapter: compressed.chapter, verse: partial.verse };
 }
 
-function expand({ book, chapter, verse }) {
+export function expand({ book, chapter, verse }) {
   const expanded = blocks.expand(book, chapter);
   return handlePsalmExpansion(expanded.book, expanded.chapter, verse);
 }

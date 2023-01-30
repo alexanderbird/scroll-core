@@ -11,7 +11,7 @@ import * as chapterCompressor from './chapterCompressor';
 const sixtySixenaries = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_-.~abcdefghijklmnopqrstuvwxyz';
 const base = 66;
 
-function compress(identifier) {
+export function compress(identifier) {
   const parsed = identifier.match(pattern);
   if (!parsed) {
     throw new Error(`'${identifier}' does not match /^[0-9]{2}-[0-9]{3}-[0-9]{3}$/`);
@@ -22,7 +22,7 @@ function compress(identifier) {
   return ('00000' + toBaseSixtyFive(numericId)).slice(-3);
 }
 
-function expand(shortIdentifier) {
+export function expand(shortIdentifier) {
   const shortIdentifierPattern = /^[0-9a-zA-Z~._-]{3}$/;
   if (!shortIdentifier.match(shortIdentifierPattern)) {
     throw new Error(`'${shortIdentifier}' does not match ${shortIdentifierPattern}`);
@@ -57,5 +57,3 @@ function sixtySixenaryFromBaseTen(number) {
 function baseTenFromSixtySixenary(sixtySixenary) {
   return sixtySixenaries.indexOf(sixtySixenary);
 }
-
-module.exports = { compress, expand };
