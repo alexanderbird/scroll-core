@@ -16,10 +16,10 @@ const examples = [
 
 describe('shortIdentifier', () => {
   examples.forEach(from => {
-    it(`compresses ${from} to exactly 4 URL safe characters`, () => {
+    it(`compresses ${from} to exactly 3 URL safe characters`, () => {
       const compressed = shortIdentifier.compress(from);
       // What are URL safe characters? https://stackoverflow.com/a/695469/3012550
-      expect(compressed).toMatch(/^[0-9a-zA-Z~._-]{4}$/);
+      expect(compressed).toMatch(/^[0-9a-zA-Z~._-]{3}$/);
     });
   });
 
@@ -35,6 +35,7 @@ describe('shortIdentifier', () => {
     everyIdentifier.forEach(id => {
       const compressed = shortIdentifier.compress(id);
       const expanded = shortIdentifier.expand(compressed);
+      expect(compressed).toMatch(/^[0-9a-zA-Z~._-]{3}$/);
       expect(expanded).toEqual(id);
     });
   });
@@ -55,15 +56,15 @@ describe('shortIdentifier', () => {
   });
 
   [
-    'aaa',
-    'aaaaa',
-    'aa?a',
-    'aa/a',
-    'aa!a',
+    'aa',
+    'aaaa',
+    'a?a',
+    'a/a',
+    'a!a',
   ].forEach(id => {
     it(`throws a helpful error when expanding ${id} which does not match the short identifier pattern`, () => {
       expect(() => shortIdentifier.expand(id))
-        .toThrow(`'${id}' does not match /^[0-9a-zA-Z~._-]{4}$/`);
+        .toThrow(`'${id}' does not match /^[0-9a-zA-Z~._-]{3}$/`);
     });
   });
 });
