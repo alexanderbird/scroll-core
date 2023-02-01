@@ -1,4 +1,4 @@
-import { jump } from './jump';
+const { jump } = require('./jump');
 
 describe('jump', () => {
   Object.entries({

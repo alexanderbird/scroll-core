@@ -53,13 +53,13 @@ const blocks = new BlockMapping()
   .addBlock(16, 99, [ 68 ])
   .addBlock(17, 99, [ 69 ]);
 
-export function compress({ book, chapter, verse }) {
+function compress({ book, chapter, verse }) {
   const partial = handlePsalmCompression(book, chapter, verse);
   const compressed = blocks.compress(partial.book, partial.chapter);
   return { book: compressed.book, chapter: compressed.chapter, verse: partial.verse };
 }
 
-export function expand({ book, chapter, verse }) {
+function expand({ book, chapter, verse }) {
   const expanded = blocks.expand(book, chapter);
   return handlePsalmExpansion(expanded.book, expanded.chapter, verse);
 }
@@ -89,3 +89,4 @@ const specialExpandingCases = {
   '68': (chapter, verse) => ({ book: 19, chapter: 99 + Number(chapter), verse: 99 + Number(verse) }),
 }
 
+module.exports = { compress, expand };

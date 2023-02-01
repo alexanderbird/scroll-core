@@ -1,5 +1,5 @@
-import * as shortIdentifier from './shortIdentifier';
-import everyIdentifier from './spec/everyIdentifier.json'
+const shortIdentifier = require('./shortIdentifier');
+const everyIdentifier = require('./spec/everyIdentifier.json');
 
 const examples = [
   '01-001-001', // smallest identifier

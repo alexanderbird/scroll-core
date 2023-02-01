@@ -1,4 +1,4 @@
-import { identifier, reference } from './identifier';
+const { identifier, reference } = require('./identifier');
 
 describe('identifier', () => {
   Object.entries({
