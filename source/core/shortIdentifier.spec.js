@@ -64,7 +64,7 @@ describe('shortIdentifier', () => {
   ].forEach(id => {
     it(`throws a helpful error when expanding ${id} which does not match the short identifier pattern`, () => {
       expect(() => shortIdentifier.expand(id))
-        .toThrow(`'${id}' does not match /^[0-9a-zA-Z~._-]{3}$/`);
+        .toThrow(`'${id}' does not match /^[0-9a-zA-Z]{3}$/`);
     });
   });
 });

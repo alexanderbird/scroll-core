@@ -2,14 +2,24 @@ const { pattern } = require('./identifier');
 const chapterCompressor = require('./chapterCompressor');
 
 /**
- * There are 66 URL safe characters. Base 65 is the most compressed URL safe representation of a number.
+ * There are 66 URL safe characters: alphanumeric and the following four characters: `_-.~`.
+ *
+ * We can encode every Bible verse reference in three characters by converting the numeric 
+ * book-chapter-verse identifier to a number in the range 1..66^3 and then encoding it in base 66.
+ *
+ * This does include the four non-alphanumeric URL safe characters in the output, which is uglier than
+ * an entirely alphanumeric ID. Our current implementation also fits in the range 1..62^3, so we are
+ * excluding the non-alphanumeric URL safe characters. However, if there was a reason in the future to
+ * move up to 66^3 then we could add those four non-alphanumeric characters while still producing an
+ * URL-safe identifier.
+ *
  * https://stackoverflow.com/a/695469/3012550
  */
 
-//                       0         10                        36  40                       65
-//                       v         v                         v   v                        v
-const sixtySixenaries = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_-.~abcdefghijklmnopqrstuvwxyz';
-const base = 66;
+//                  0         10                        36                       62
+//                  v         v                         v                        v
+const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+const base = 62;
 
 function compress(identifier) {
   const parsed = identifier.match(pattern);
@@ -19,15 +29,15 @@ function compress(identifier) {
   const { book: book0, chapter: chapter0, verse: verse0 } = parsed.groups;
   const { book, chapter, verse } = chapterCompressor.compress({ book: book0, chapter: chapter0, verse: verse0 });
   const numericId = Number(`${book}${("00" + chapter).slice(-2)}${("00" + verse).slice(-2)}`);
-  return ('00000' + toBaseSixtyFive(numericId)).slice(-3);
+  return ('00000' + toBaseSixtyTwo(numericId)).slice(-3);
 }
 
 function expand(shortIdentifier) {
-  const shortIdentifierPattern = /^[0-9a-zA-Z~._-]{3}$/;
+  const shortIdentifierPattern = /^[0-9a-zA-Z]{3}$/;
   if (!shortIdentifier.match(shortIdentifierPattern)) {
     throw new Error(`'${shortIdentifier}' does not match ${shortIdentifierPattern}`);
   }
-  const numericId = fromBaseSixtyFive(shortIdentifier);
+  const numericId = fromBaseSixtyTwo(shortIdentifier);
   const [i6, i5, i4, i3, i2, i1] = `000000${numericId}`.split('').reverse();
   const book0 = i1 + i2;
   const chapter0 = i3 + i4;
@@ -36,26 +46,26 @@ function expand(shortIdentifier) {
   return [("00" + book).slice(-2), ("000" + chapter).slice(-3), ("000" + verse).slice(-3)].join('-');
 }
 
-function toBaseSixtyFive(number) {
+function toBaseSixtyTwo(number) {
   if (number === 0) return '';
   const leastSignificant = number % base;
-  const leastSignificantSixtySixenary = sixtySixenaryFromBaseTen(leastSignificant);
+  const leastSignificantCharacter = baseSixtyTwoCharacterFromBaseTen(leastSignificant);
   const remainder = Math.floor(number / base);
-  return `${toBaseSixtyFive(remainder)}${leastSignificantSixtySixenary}`;
+  return `${toBaseSixtyTwo(remainder)}${leastSignificantCharacter}`;
 }
 
-function fromBaseSixtyFive(baseSixtyFive) {
-  return baseSixtyFive.split('').reverse()
-    .map((sixtySixenary, power) => baseTenFromSixtySixenary(sixtySixenary) * (base ** power))
+function fromBaseSixtyTwo(baseSixtyTwo) {
+  return baseSixtyTwo.split('').reverse()
+    .map((character, power) => baseTenDigitFromBaseSixtyTwoCharacter(character) * (base ** power))
     .reduce((all, one) => all + one, 0);
 }
 
-function sixtySixenaryFromBaseTen(number) {
-  return sixtySixenaries[number];
+function baseSixtyTwoCharacterFromBaseTen(number) {
+  return characters[number];
 }
 
-function baseTenFromSixtySixenary(sixtySixenary) {
-  return sixtySixenaries.indexOf(sixtySixenary);
+function baseTenDigitFromBaseSixtyTwoCharacter(character) {
+  return characters.indexOf(character);
 }
 
 module.exports = { compress, expand }
