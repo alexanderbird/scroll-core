@@ -25,4 +25,6 @@ const summary = Object.entries(result)
 
 summary.forEach(x => console.log(x));
 
-fs.writeFileSync(process.argv[3], JSON.stringify(result));
+const compressedResult = Object.fromEntries(Object.entries(result).map(([key, value]) => [key, value.join('')]));
+
+fs.writeFileSync(process.argv[3], JSON.stringify(compressedResult, null, 2));
