@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@nlpjs/lang-en": "^4.26.1",
-    "fast-fuzzy": "^1.12.0"
+    "fast-fuzzy": "^1.12.0",
+    "words-to-numbers": "^1.5.1"
   }
 }

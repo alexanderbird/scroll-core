@@ -14,18 +14,16 @@ describe('tokenize', () => {
       "mourn",
       "nor",
       "cri",
-      "nor",
       "pain",
       "ani",
-      "more",
-      "first",
+      "1",
       "thing",
       "pass",
     ]);
   });
 
   it('removes all the words that occur in more than 1000 verses', () => {
-    const stopWords = "great an live over place give away name know servant make down yahweh our let these therefor like becaus even word or us citi lord may now made if went offer thing go those against also do men father at we befor no came children so her hand into land come hous had there peopl then man day up when israel this king has one were by say as which out not son are but said god their me was from shall on my have yahweh all them be who with him they is it your i his that a for will he in you to and of";
+    const stopWords = "a great an live over place give away name know servant make down yahweh our let these therefor like becaus even word or us citi lord may now made if went offer thing go those against also do men father at we befor no came children so her hand into land come hous had there peopl then man day up when israel this king has were by say as which out not son are but said god their me was from shall on my have yahweh all them be who with him they is it your i his that for will he in you to and of";
     expect(tokenize(stopWords)).toHaveLength(0);
   });
 
@@ -33,6 +31,36 @@ describe('tokenize', () => {
     const one = tokenize('my mother in law has a lovely hat');
     const two = tokenize('mother-in-law has-a-lovely hat');
     expect(one).toEqual(two);
+  });
+
+  it('understands numbers', () => {
+    const phraseWithNumbers = 'There are forty two fish on the fifth train car in the seventy-third box';
+    expect(tokenize(phraseWithNumbers)).toEqual([
+      '42',
+      'fish',
+      '5',
+      'train',
+      'car',
+      '73',
+      'box'
+    ]);
+  });
+
+  it('removes duplicates', () => {
+    expect(tokenize('Spam, egg, Spam, Spam, bacon, and Spam')).toEqual([
+      'spam',
+      'egg',
+      'bacon'
+    ]);
+  });
+
+  it('tokenizes the word "point" correctly', () => {
+    expect(tokenize("The pencil's point snapped. What's the point?")).toEqual([
+      'pencil',
+      'point',
+      'snap',
+      'what',
+    ]);
   });
 
 });
