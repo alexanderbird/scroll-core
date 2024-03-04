@@ -7,16 +7,19 @@
     "test": "jest",
     "clean": "rm -rf ./build && mkdir ./build",
     "build": "npm run clean && run-p build:*",
-    "build:index": "mkdir -p ./build/bible && ./source/indexer/run.sh ./build/bible"
+    "build:index": "mkdir -p ./build/bible && ./source/indexer/run.sh ./build/bible",
+    "create-search-index": "babel-node source/search/index.js"
   },
   "repository": "github:alexanderbird/scroll",
   "author": "Alexander Bird",
   "license": "GPL-3.0",
   "devDependencies": {
-    "@babel/core": "^7.17.9",
-    "@babel/preset-env": "^7.16.11",
+    "@babel/core": "^7.24.0",
+    "@babel/node": "^7.23.9",
+    "@babel/preset-env": "^7.24.0",
     "@babel/preset-typescript": "^7.16.7",
     "babel-jest": "^27.5.1",
+    "babel-node": "^0.0.1-security",
     "jest": "^27.5.1",
     "npm-run-all": "^4.1.5"
   },

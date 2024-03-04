@@ -1,4 +1,4 @@
-const { bookList } = require('./bookList');
+const { bookList, getNumberForBookName } = require('./bookList');
 
 const reverseBookList = Object.entries(bookList)
   .reduce((all, one) => { all[one[1]] = one[0]; return all; }, {});
@@ -13,7 +13,7 @@ function reference(identfier) {
 
 function identifier(reference) {
   const [_, book, chapter, verse] = parseReference(reference);
-  const bookNumber = bookList[book];
+  const bookNumber = getNumberForBookName(book);
   if (!bookNumber) {
     throw new Error(`Unknown book title "${book}".`);
   }
