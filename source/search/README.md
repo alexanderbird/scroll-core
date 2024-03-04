@@ -9,5 +9,10 @@ like the following:
 ```
 
 ```
-npm run create-search-index path/to/input.json > path/to/result.json
+npm run create-search-index path/to/input.json path/to/result.json
 ```
+
+
+For example:
+
+    npm run create-search-index ../02-structured/en-webp.json ../search-index/webp.json

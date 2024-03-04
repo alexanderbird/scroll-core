@@ -23,6 +23,6 @@ const summary = Object.entries(result)
   .sort((a, b) => a.length - b.length)
   .map(({ key, length }) => `${key}\t${length}`)
 
-//summary.forEach(x => console.log(x));
-//
-console.log(JSON.stringify(result))
+summary.forEach(x => console.log(x));
+
+fs.writeFileSync(process.argv[3], JSON.stringify(result));

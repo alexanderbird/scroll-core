@@ -8,6 +8,11 @@ const stemmer = new StemmerEn();
 stemmer.stopwords = stopwords;
 
 export function tokenize(text) {
-  return stemmer.tokenizeAndStem(text, false)
-    .filter(x => x.match(/[a-z]/));
+  const preprocessed = text.toLowerCase()
+    .replace(/[—-]/g, ' ')
+    .replace(/‘/g, "'")
+    .replace(/’/g, "'")
+    .replace(/“/g, '"')
+    .replace(/”/g, '"');
+  return stemmer.tokenizeAndStem(preprocessed, false);
 }
