@@ -23,7 +23,7 @@ describe('tokenize', () => {
   });
 
   it('removes all the words that occur in more than 1000 verses', () => {
-    const stopWords = "a great an live over place give away name know servant make down yahweh our let these therefor like becaus even word or us citi lord may now made if went offer thing go those against also do men father at we befor no came children so her hand into land come hous had there peopl then man day up when israel this king has were by say as which out not son are but said god their me was from shall on my have yahweh all them be who with him they is it your i his that for will he in you to and of";
+    const stopWords = "a an over place away name know make down our let these therefor like becaus even or us may now made if went thing go those also do men at we befor no came so her into land hous had there then man day up when this has were by say as which out not son are but said their me was from shall on my have all them be who with him they is it your i his that for will he in you to and of what did";
     expect(tokenize(stopWords)).toHaveLength(0);
   });
 
@@ -59,8 +59,11 @@ describe('tokenize', () => {
       'pencil',
       'point',
       'snap',
-      'what',
     ]);
+  });
+
+  it('stems similar words', () => {
+    expect(tokenize('trust, trusted, trusting')).toEqual(['trust']);
   });
 
 });
